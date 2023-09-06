@@ -1,12 +1,10 @@
 <h1> AP2-Trab1 </h1>
 Trabalho 1 de Algoritmos e Programação 2
-<hr>
 <h2> Alunos </h2>
 <ul>
     <li>Marco Antonio Batista de Souza</li>
     <li>Rafael Romancini</li>
 </ul>
-<hr>
 <h2>Enunciados</h2>
 <h3>Questão 1</h3>
 <b>Caçadores de Mitos (Adaptado da OBI)</b>
