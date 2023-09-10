@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #define LARGURA 100
 #define ALTURA 100
 
@@ -57,7 +56,7 @@ Quadrante ** GerarMatriz(){
 
 void ImprimirMenu()
 {   
-    system("clear");
+    system("cls");
     printf("==== MENU ====\n");
     printf("1 - Imprimir Raio\n");
     printf("2 - Quantidade de Raios que cairam\n");
@@ -73,13 +72,50 @@ int PegarOpcaoMenu()
     scanf(" %d", &resposta);
     return resposta;
 }
+
 /* Funções auxiliares */
+
 void Erro(char *msg)
 {
     system("color 4F");
     printf("Erro: %s\n", msg);
 }
 
+/* Funções do programa */
+
+void MarcarRaio(Quadrante **cidade)
+{
+    int x, y, validacao = 0;
+    do
+    {
+        system("cls");
+        printf("==== MARCAR RAIO ====\n");
+
+        if(validacao)
+        {
+            printf("\n--- O VALOR ANTERIOR NAO E VALIDO! ---\n\n");
+        }
+        validacao = 0;
+
+        printf("Digite o quadrante X que ira receber o raio:\n");
+        scanf(" %d", &x);
+        if(x < 0 || x >= LARGURA)
+        {
+            validacao = 1;
+            continue;
+        }
+
+        printf("Digite o quadrante Y que ira receber o raio:\n");
+        scanf(" %d", &y);
+        if(y < 0 || y >= LARGURA)
+        {
+            validacao = 1;
+            continue;
+        }
+
+    } while (validacao);
+        
+}
 
 int main()
 {
@@ -98,8 +134,7 @@ int main()
         switch (MenuOption)
         {
         case ImprimirRaio:
-            printf("IMPLEMENTAR ImprimirRaio\n");
-            scanf("%d", stdin);
+            MarcarRaio(matrizCidade);
             break;
         case QuantidadeRaios:
             printf("IMPLEMENTAR QuantidadeRaios\n");
