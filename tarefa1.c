@@ -300,7 +300,7 @@ int main()
     // Libera a memória alocada
     for (int i = 0; i < LARGURA; i++)
     {
-        free(matrizCidade[i]);
+        free(matrizCidade+i);
     }
     free(matrizCidade);
     return 0;
