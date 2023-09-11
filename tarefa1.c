@@ -188,7 +188,7 @@ int MarcarRaio(Quadrante **cidade)
         printf("==== MARCAR RAIO ====\n");
         if(validacao)
         {
-        printf("\n--- Opcao de clima invalido! ---\n\n");
+        printf("\n--- Opcao de tempo invalido! ---\n\n");
         }
         validacao = 0;
         printf("Selecione um tempo:\n");
