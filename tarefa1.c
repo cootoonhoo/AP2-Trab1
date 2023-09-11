@@ -56,7 +56,7 @@ Quadrante ** GerarMatriz(){
 
 void ImprimirMenu()
 {   
-    system("cls");
+    system("cls"); // Limpa o console
     printf("==== MENU ====\n");
     printf("1 - Imprimir Raio\n");
     printf("2 - Quantidade de Raios que cairam\n");
@@ -83,12 +83,12 @@ void Erro(char *msg)
 
 /* Funções do programa */
 
-void MarcarRaio(Quadrante **cidade)
+int MarcarRaio(Quadrante **cidade)
 {
     int x, y, validacao = 0;
     do
     {
-        system("cls");
+        system("cls"); // Limpa o console
         printf("==== MARCAR RAIO ====\n");
 
         if(validacao)
@@ -112,15 +112,71 @@ void MarcarRaio(Quadrante **cidade)
             validacao = 1;
             continue;
         }
-
     } while (validacao);
-        
+    
+    do
+    {
+        system("cls"); // Limpa o console
+        printf("==== MARCAR RAIO ====\n");
+
+        if((*(cidade+x)+y)->intensidadeRaio > 0)
+        {
+            system("cls"); // Limpa o console
+            Erro("Um raio nao pode cair duas vezes no mesmo lugar!");
+            return Sair; // Retorna para o controle do menu a opção de sair
+        }
+
+        if(validacao)
+        {
+              printf("\nO valor da intensidade invalido. O valor deve ser maior que 0!\n");
+        }
+        validacao = 0;
+
+        printf("Digite a intensidade do raio:\n");
+        scanf(" %d", &(*(cidade+x)+y)->intensidadeRaio);
+
+        if( (*(cidade+x)+y)->intensidadeRaio <= 0)
+            validacao = 1;
+    } while (validacao);
+
+    do
+    {
+        system("cls"); // Limpa o console
+        printf("==== MARCAR RAIO ====\n");
+        if(validacao)
+        {
+        printf("\n--- A data anterior era invalida! ---\n");
+        }
+        validacao = 0;
+
+        printf("Digite o dia que o raio caiu:\n");
+        scanf(" %d", &(*(cidade+x)+y)->dia);
+        if(&(*(cidade+x)+y)->dia < 0 || (*(cidade+x)+y)->dia > 31)
+        {
+            validacao = 1;
+        }
+
+        system("cls"); // Limpa o console
+        printf("==== MARCAR RAIO ====\n");
+        printf("Digite o mes que o raio caiu:\n");
+        scanf(" %d", &(*(cidade+x)+y)->mes);
+        if((*(cidade+x)+y)->mes < 0 || (*(cidade+x)+y)->mes > 12)
+        {
+            validacao = 1;
+        }
+
+        system("cls"); // Limpa o console
+        printf("==== MARCAR RAIO ====\n");
+        printf("Digite o ano que o raio caiu:\n");   
+        scanf(" %d", &(*(cidade+x)+y)->ano);
+    } while (validacao);
+    return 0;
 }
 
 int main()
 {
     Quadrante **matrizCidade = GerarMatriz();
-    int MenuOption = 0;
+    int MenuOption = 0, qntRaios = 0;
     if(matrizCidade == NULL)
     {
         Erro("Memoria insuficiente para alocar a Matriz!");
@@ -134,7 +190,9 @@ int main()
         switch (MenuOption)
         {
         case ImprimirRaio:
-            MarcarRaio(matrizCidade);
+            MenuOption = MarcarRaio(matrizCidade);
+            if(MenuOption != 5)
+                qntRaios++;
             break;
         case QuantidadeRaios:
             printf("IMPLEMENTAR QuantidadeRaios\n");
@@ -154,7 +212,11 @@ int main()
     } while (MenuOption != 5);
     
     // Exemplo de como imprimir dados do quadrante;
-    //printf("%d",(*(matrizCidade))->intensidadeRaio);
+    // Debug teste
+    printf("%d",(*(matrizCidade))->intensidadeRaio);
+    printf("%d",(*(matrizCidade))->dia);
+    printf("%d",(*(matrizCidade))->mes);
+    printf("%d",(*(matrizCidade))->ano);
 
     // Libera a memória alocada
     for (int i = 0; i < LARGURA; i++)
