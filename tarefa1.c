@@ -181,6 +181,27 @@ int MarcarRaio(Quadrante **cidade)
         printf("Digite o ano que o raio caiu:\n");   
         scanf(" %d", &(*(cidade+x)+y)->ano);
     } while (validacao);
+
+    do
+    {
+        system("cls"); // Limpa o console
+        printf("==== MARCAR RAIO ====\n");
+        if(validacao)
+        {
+        printf("\n--- Opcao de clima invalido! ---\n\n");
+        }
+        validacao = 0;
+        printf("Selecione um clima:\n");
+        printf("1 - Ensolarado\n");
+        printf("2 - Chuvoso\n");
+        printf("3 - Nublado\n");
+        printf("4 - Outro\n");
+        printf("\nDigite um numero correspondente ao tempo:\n");
+        scanf(" %d", &(*(cidade+x)+y)->tempo);
+
+        if((*(cidade+x)+y)->tempo  < 1 || (*(cidade+x)+y)->tempo > 4)
+            validacao = 1;
+    } while (validacao);
     return 0;
 }
 
@@ -188,7 +209,7 @@ void ImprimirQntRaios(int qnt)
 {
     system("cls"); // Limpa o console
     printf("==== QUANTIDADE QUADRANTES AFETADOS ====\n");
-    printf("Quantidade de quadrante(s) afetado(s) : %d \n", qnt);
+    printf("Quantidade de quadrante(s) afetado(s) : %d \n\n", qnt);
     system("pause");    //Função para ficar aguardando algum input do usuário. Apenas por questões de experiencia de usuario
 }
 
@@ -196,8 +217,38 @@ void ImprimirQntCidadesNaoAtingidas(int qnt)
 {
     system("cls"); // Limpa o console
     printf("==== QUANTIDADE QUADRANTES NAO ATINGIDOS ====\n");
-    printf("Quantidade de quadrante(s) nao atingido(s): %d \n", (ALTURA * LARGURA - qnt));
+    printf("Quantidade de quadrante(s) nao atingido(s): %d \n\n", (ALTURA * LARGURA - qnt));
     system("pause");    //Função para ficar aguardando algum input do usuário. Apenas por questões de experiencia de usuario
+}
+
+void ExibirMatrizCidade(Quadrante **Cidade)
+{
+    // ATENÇÃO - Cidades com quaisquer dimensoes maiores que 10x10 ira desalinhar a exibicao
+    // Sendo assim, desativamos as coordenadas ao lado da matriz nessas situações;
+    system("cls"); // Limpa o console
+    printf("==== MAPA DA CIDADE ====\n");
+    printf("   ");
+    if(LARGURA <= 10)
+        for(int x = 0; x < ALTURA; x++)
+            printf(" %d ", x);
+    printf("\n");
+    for(int y = 0; y < ALTURA; y++)
+    {
+        if(ALTURA <= 10)
+            printf(" %d ", y);
+        for(int x = 0; x < LARGURA; x++)
+        {
+            printf(" ");
+            if((*(Cidade+x)+y)->intensidadeRaio == 0)
+                printf("-");
+            else
+                printf("x");
+            printf(" ");
+        }
+        printf("\n");
+    }
+    printf("\n");
+    system("pause");
 }
 
 // --------------------------------------------------------------
@@ -232,8 +283,7 @@ int main()
             ImprimirQntCidadesNaoAtingidas(qntRaios);
             break;
         case Matriz:
-            printf("IMPLEMENTAR QuantidadeAreas\n");
-            scanf("%d", stdin);
+            ExibirMatrizCidade(matrizCidade);
             break;
         default:
             break;
