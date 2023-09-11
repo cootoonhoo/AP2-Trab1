@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define LARGURA 100
-#define ALTURA 100
+#define LARGURA 10
+#define ALTURA 10
 
 /* Enums auxiliares */
 typedef enum
@@ -47,9 +47,19 @@ Quadrante ** GerarMatriz(){
     for(int i = 0; i < LARGURA; i++)
     {
         *(pntMatriz+i) = (Quadrante *)malloc(ALTURA * sizeof(Quadrante));
-        ConstrutorQuadrante(*(pntMatriz+i));
     }
     return pntMatriz;
+}
+
+void InicializarMatriz(Quadrante **pntMatriz)
+{
+    for(int y = 0; y < ALTURA; y++)
+    {
+        for(int x = 0; x < LARGURA; x++)
+        {
+            ConstrutorQuadrante(*(pntMatriz+x)+y);
+        }
+    }
 }
 
 /* Funções para manipulação do menu*/
@@ -118,7 +128,6 @@ int MarcarRaio(Quadrante **cidade)
     {
         system("cls"); // Limpa o console
         printf("==== MARCAR RAIO ====\n");
-
         if((*(cidade+x)+y)->intensidadeRaio > 0)
         {
             system("cls"); // Limpa o console
@@ -154,6 +163,7 @@ int MarcarRaio(Quadrante **cidade)
         if(&(*(cidade+x)+y)->dia < 0 || (*(cidade+x)+y)->dia > 31)
         {
             validacao = 1;
+            continue;
         }
 
         system("cls"); // Limpa o console
@@ -163,6 +173,7 @@ int MarcarRaio(Quadrante **cidade)
         if((*(cidade+x)+y)->mes < 0 || (*(cidade+x)+y)->mes > 12)
         {
             validacao = 1;
+            continue;
         }
 
         system("cls"); // Limpa o console
@@ -173,6 +184,24 @@ int MarcarRaio(Quadrante **cidade)
     return 0;
 }
 
+void ImprimirQntRaios(int qnt)
+{
+    system("cls"); // Limpa o console
+    printf("==== QUANTIDADE QUADRANTES AFETADOS ====\n");
+    printf("Quantidade de quadrante(s) afetado(s) : %d \n", qnt);
+    system("pause");    //Função para ficar aguardando algum input do usuário. Apenas por questões de experiencia de usuario
+}
+
+void ImprimirQntCidadesNaoAtingidas(int qnt)
+{
+    system("cls"); // Limpa o console
+    printf("==== QUANTIDADE QUADRANTES NAO ATINGIDOS ====\n");
+    printf("Quantidade de quadrante(s) nao atingido(s): %d \n", (ALTURA * LARGURA - qnt));
+    system("pause");    //Função para ficar aguardando algum input do usuário. Apenas por questões de experiencia de usuario
+}
+
+// --------------------------------------------------------------
+
 int main()
 {
     Quadrante **matrizCidade = GerarMatriz();
@@ -182,6 +211,8 @@ int main()
         Erro("Memoria insuficiente para alocar a Matriz!");
         return 0;
     }
+
+    InicializarMatriz(matrizCidade);
 
     do
     {
@@ -195,12 +226,10 @@ int main()
                 qntRaios++;
             break;
         case QuantidadeRaios:
-            printf("IMPLEMENTAR QuantidadeRaios\n");
-            scanf("%d", stdin);
+            ImprimirQntRaios(qntRaios);
             break;
         case QuantidadeAreas:
-            printf("IMPLEMENTAR QuantidadeAreas\n");
-            scanf("%d", stdin);
+            ImprimirQntCidadesNaoAtingidas(qntRaios);
             break;
         case Matriz:
             printf("IMPLEMENTAR QuantidadeAreas\n");
@@ -213,10 +242,10 @@ int main()
     
     // Exemplo de como imprimir dados do quadrante;
     // Debug teste
-    printf("%d",(*(matrizCidade))->intensidadeRaio);
-    printf("%d",(*(matrizCidade))->dia);
-    printf("%d",(*(matrizCidade))->mes);
-    printf("%d",(*(matrizCidade))->ano);
+    // printf("%d",(*(matrizCidade))->intensidadeRaio);
+    // printf("%d",(*(matrizCidade))->dia);
+    // printf("%d",(*(matrizCidade))->mes);
+    // printf("%d",(*(matrizCidade))->ano);
 
     // Libera a memória alocada
     for (int i = 0; i < LARGURA; i++)
